@@ -20,7 +20,7 @@ var params = {
     
     spotifyParams: {
         type: 'track', 
-        query: liriRequest
+        liriRequest: liriRequest
     }
 }
 

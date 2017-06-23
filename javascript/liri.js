@@ -1,3 +1,4 @@
+//Requires
 var request = require("request");
 var Spotify = require('node-spotify-api');
 var config = require("./config");
@@ -29,14 +30,17 @@ var movieURL = "http://www.omdbapi.com/?t="+liriRequest+"&apikey="+movieKey+"";
 
 //Commands
 
+//If "my-tweets" is typed
 if (searchLiri === 'my-tweets') {
 	T.get('statuses/user_timeline', params.twitterParams, runTwitter);
 }
 
+//If "spotify-this-song" is typed
 else if (searchLiri === 'spotify-this-song') {
 	S.search(params.spotifyParams, runSpotify);
 }
 
+//If "movie-this" is typed
 else if (searchLiri === 'movie-this') {
 	request(movieURL, function(error, response, body){
 		var searchBody = JSON.parse(body);
@@ -65,6 +69,7 @@ else if (searchLiri === 'movie-this') {
 	});
 }
 
+//If "Do what it says" is typed
 else if (searchLiri === 'do-what-it-says') {   
 	fs.readFile("random.txt", "utf8", function(error, data){
 
@@ -94,7 +99,7 @@ function runTwitter(error, tweets, response){
     }
 }
 
-// Spotify
+// Spotify NPM
 function runSpotify(err, data){
 	if (err) {
 		console.log('Error occurred: ' + err);
@@ -112,35 +117,3 @@ function runSpotify(err, data){
 	console.log("============================");
 
 }
-
-// function doWhatItSays(){
-// 	fs.readFile("random.txt", "utf8", function(error, data){
-
-// 		if(error) {
-// 		    console.log(error);
-// 		}
-		
-// 		var results = data.slice(18);
-//             console.log(results);
-          
-//    //          S.search({ type: 'track', query: results}, function(err, data) {
-                
-//    //              if (err) {
-//    //                  return console.log('Error occurred: ' + err);
-//    //          	}
-
-// 			// 	var trackName = data.tracks.items[0].name;
-// 			// 	var trackArtist = data.tracks.items[0].artists[0].name;
-// 			// 	var trackAlbum = data.tracks.items[0].album.name;
-// 			// 	var trackPreview = data.tracks.items[0].preview_url;
-
-// 			// 	console.log("Track Name: "+ trackName);
-// 			// 	console.log("Artist: "+ trackArtist);
-// 			// 	console.log("Album: "+ trackAlbum);
-// 			// 	console.log("Preview Song: "+ trackPreview);
-// 			// 	console.log("============================");
-		
-// 			// });
-//     })    
-//     runSpotify(); 
-// }

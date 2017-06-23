@@ -20,7 +20,7 @@ var params = {
     
     spotifyParams: {
         type: 'track', 
-        liriRequest: liriRequest
+        query: liriRequest
     }
 }
 
@@ -46,7 +46,7 @@ else if (searchLiri === 'movie-this') {
 		var movieCountry = searchBody.Country;
 		var movieLang = searchBody.Language;
 		var movieActors = searchBody.Actors;
-		var movieRottenTomatoes = searchBody.Ratings;
+		var movieRottenTomatoes = searchBody.Ratings[1].Value;
 
 			if (!error && response.statusCode === 200) {
 				console.log("Title: " + movieTitle);
@@ -65,8 +65,16 @@ else if (searchLiri === 'movie-this') {
 	});
 }
 
-else if (searchLiri === 'do-what-it-says') {
+else if (searchLiri === 'do-what-it-says') {   
+	fs.readFile("random.txt", "utf8", function(error, data){
 
+		if(error) {
+		    console.log("Something went wrong" + error);
+		}
+		
+		var results = data.slice(18);
+		S.search({ type: 'track', query: results}, runSpotify);
+    });    
 }
 
 //Twitter NPM
@@ -89,31 +97,50 @@ function runTwitter(error, tweets, response){
 // Spotify
 function runSpotify(err, data){
 	if (err) {
-    return console.log('Error occurred: ' + err);
-  	}
- 
-	console.log(data); 
-	// var music = data.tracks.items[0];
-	// 	var trackName = music.name;
-	// 	var trackArtist = music.artists;
-	// 	var trackAlbum = music.album.name;
-	// 	var trackPreview = music.preview_url;
+		console.log('Error occurred: ' + err);
+  	}  
 
-	// if (!error && data.statusCode === 200){
-	// 	console.log(trackName);
-	// 	console.log(trackArtist);
-	// 	console.log(trackAlbum);
-	// 	console.log(trackPreview);
-	// 	console.log("============================");
-	// }
+	var trackName = data.tracks.items[0].name;
+	var trackArtist = data.tracks.items[0].artists[0].name;
+	var trackAlbum = data.tracks.items[0].album.name;
+	var trackPreview = data.tracks.items[0].preview_url;
 
-	// else if (!error && data.statusCode === 200 && liriRequest === false) {
-	// 	liriRequest = 'the-sign';
-	// 	console.log(trackName);
-	// 	console.log(trackArtist);
-	// 	console.log(trackAlbum);
-	// 	console.log(trackPreview);
-	// 	console.log("============================");
- //    }
-    
+	console.log("Track Name: "+ trackName);
+	console.log("Artist: "+ trackArtist);
+	console.log("Album: "+ trackAlbum);
+	console.log("Preview Song: "+ trackPreview);
+	console.log("============================");
+
 }
+
+// function doWhatItSays(){
+// 	fs.readFile("random.txt", "utf8", function(error, data){
+
+// 		if(error) {
+// 		    console.log(error);
+// 		}
+		
+// 		var results = data.slice(18);
+//             console.log(results);
+          
+//    //          S.search({ type: 'track', query: results}, function(err, data) {
+                
+//    //              if (err) {
+//    //                  return console.log('Error occurred: ' + err);
+//    //          	}
+
+// 			// 	var trackName = data.tracks.items[0].name;
+// 			// 	var trackArtist = data.tracks.items[0].artists[0].name;
+// 			// 	var trackAlbum = data.tracks.items[0].album.name;
+// 			// 	var trackPreview = data.tracks.items[0].preview_url;
+
+// 			// 	console.log("Track Name: "+ trackName);
+// 			// 	console.log("Artist: "+ trackArtist);
+// 			// 	console.log("Album: "+ trackAlbum);
+// 			// 	console.log("Preview Song: "+ trackPreview);
+// 			// 	console.log("============================");
+		
+// 			// });
+//     })    
+//     runSpotify(); 
+// }

@@ -10,7 +10,7 @@ module.exports = {
     },
 
     spotifyKeys: {
-        id: "y2239b29ce0494af2af9e59aa10868a41",
+        id: "2239b29ce0494af2af9e59aa10868a41",
         secret: "eb5b34a745f6453b8970abc18b039311"
     }
 }
